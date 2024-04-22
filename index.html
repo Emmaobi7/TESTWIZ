@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+
+  
+<form>
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br>
+  <label for="location">Location:</label><br>
+  <input type="text" id="location" name="location"><br>
+  <label for="address">Address</label><br>
+  <input type="text" id="address" name="address"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@xano/js-sdk@latest/dist/xano.min.js"></script>
+
+<script type="text/javascript">
+  var xano = new XanoClient({
+    'apiGroupBaseUrl': 'https://x8ki-letl-twmt.n7.xano.io/api:uxToUrQ6'
+  });
+ 
+//Get the form element
+var form = document.getElementsByTagName('form')[0];
+//Get the submit button
+var submitButton = form.getElementsByTagName('input')[3];
+
+submitButton.addEventListener('click', function(e) {
+  e.preventDefault();// prevents the default submit event
+
+    xano.post('/shipment', {
+      name: document.getElementsByName('name')[0].value,
+      location: document.getElementsByName('location')[0].value,
+            address: document.getElementsByName('address')[0].value,
+
+      }).then(
+      (response) => {
+      							console.log(response);
+        						localStorage.setItem('id', response.body.id);
+                    console.log(localStorage.id);
+                    window.location.href = "success.html";
+                }),
+      (error) => {
+        // Failure
+      }
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+    
+</body>
+</html>

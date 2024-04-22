@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search and Display Shipment</title>
+</head>
+<body>
+
+<input type="text" id="searchInput" placeholder="Enter Shipment ID">
+<button id="searchButton">Search</button>
+
+<div id="shipmentDetails">
+    <p>Name: <span id="name"></span></p>
+    <p>location: <span id="location"></span></p>
+    <p>ID: <span id="recordid"></span></p>
+    <p>address: <span id="address"></span></p>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@xano/js-sdk@latest/dist/xano.min.js"></script>
+<script type="text/javascript">
+    var xano = new XanoClient({
+        'apiGroupBaseUrl': 'https://x8ki-letl-twmt.n7.xano.io/api:uxToUrQ6'
+    });
+
+    document.getElementById('searchButton').addEventListener('click', function() {
+        var shipmentId = document.getElementById('searchInput').value;
+        if (shipmentId) {
+            xano.get('/shipment/' + shipmentId).then(
+                (response) => {
+                    // Success!
+                    console.log(response)
+                    var nameElement = document.getElementById('name');
+                    var locationElement = document.getElementById('location');
+                    var recordIdElement = document.getElementById('recordid');
+                    var addressElement = document.getElementById('address');
+
+                    nameElement.textContent = response.body.name;
+                    locationElement.textContent = response.body.location;
+                    recordIdElement.textContent = response.body.id;
+                    addressElement.textContent = response.body.address;
+
+                },
+                (error) => {
+                    console.log(err)
+                }
+            );
+        } else {
+            alert("Please enter a shipment ID.");
+        }
+    });
+</script>
+
+</body>
+</html>
